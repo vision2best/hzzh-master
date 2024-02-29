@@ -1,0 +1,8 @@
+spring:
+  redis:
+    redisson:
+      file: classpath:redisson.yaml
+  cache:
+    type: CAFFEINE
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=600s

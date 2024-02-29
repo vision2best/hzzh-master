@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: HZZH
+  main:
+    log-startup-info: false
+    lazy-initialization: false
+    banner-mode: log
+logging:
+  include-application-name: true
+  file:
+    name: my.log
+  register-shutdown-hook: false
+debug: false
+trace: false
