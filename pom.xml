@@ -10,9 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>hzzh-bom</module>
-        <module>hzzh-base/hzzh-jdbc</module>
-        <module>hzzh-base/hzzh-jdbc/hzzh-mybatis</module>
-        <module>hzzh-base/hzzh-jdbc/hzzh-mybatis-plus</module>
     </modules>
 
     <properties>
