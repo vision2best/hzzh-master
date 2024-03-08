@@ -71,7 +71,7 @@
             </dependency>
             <dependency>
                 <groupId>life.hzzh</groupId>
-                <artifactId>hzzh-bff</artifactId>
+                <artifactId>hzzh-acs</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>

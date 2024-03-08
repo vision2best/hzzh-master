@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
-import life.hzzh.base.bff.context.HeaderContext;
 import life.hzzh.web.entity.Tenants;
 import life.hzzh.web.service.TenantsService;
 import org.springframework.http.ResponseEntity;

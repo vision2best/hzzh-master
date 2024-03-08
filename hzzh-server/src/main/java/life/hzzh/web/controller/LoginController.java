@@ -3,9 +3,6 @@ package life.hzzh.web.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
-import life.hzzh.base.bff.context.HeaderContext;
-import life.hzzh.base.bff.context.PlatformEnum;
-import life.hzzh.base.bff.context.TokenKit;
 import life.hzzh.web.entity.Users;
 import life.hzzh.web.model.LoginReq;
 import life.hzzh.web.service.UsersService;
@@ -14,10 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Instant;
-
-import static life.hzzh.base.core.eneity.AdminConstants.CommonTenantCode;
 
 /**
  * @author ZHANG HUANG
@@ -37,13 +30,7 @@ public class LoginController {
         usersLambdaQueryWrapper.eq(Users::getMobile, mobile);
         Users users = usersService.getOne(usersLambdaQueryWrapper);
         if (users != null) {
-            HeaderContext.HeaderData headerData = new HeaderContext.HeaderData();
-            headerData.setTenantId(CommonTenantCode);
-            headerData.setUserId(users.getId());
-            headerData.setClient(PlatformEnum.WEB);
-            headerData.setLoginAt(Instant.now().toEpochMilli());
-            String token = TokenKit.generateToken(headerData);
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok("");
         }
         return ResponseEntity.badRequest().body(null);
     }
