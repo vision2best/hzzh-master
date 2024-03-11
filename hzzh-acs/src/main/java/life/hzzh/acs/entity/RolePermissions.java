@@ -1,14 +1,14 @@
 package life.hzzh.acs.entity;
 
-import java.util.Date;
-
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 角色权限(RolePermissions)表实体类
@@ -21,6 +21,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RolePermissions extends Model<RolePermissions> {
+    @TableId(type = IdType.AUTO)
+    private Long id;
     //角色 ID
     private Long roleId;
     //权限 ID

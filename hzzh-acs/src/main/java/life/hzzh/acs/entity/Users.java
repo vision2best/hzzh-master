@@ -1,5 +1,7 @@
 package life.hzzh.acs.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Users extends Model<Users> {
     //用户 ID
+    @TableId(type = IdType.INPUT)
     private Long userId;
     //用户名
     private String username;

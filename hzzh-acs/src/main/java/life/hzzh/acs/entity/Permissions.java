@@ -1,5 +1,7 @@
 package life.hzzh.acs.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +23,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Permissions extends Model<Permissions> {
     //权限 ID
+    @TableId(type = IdType.INPUT)
     private Long permissionId;
     //权限编码
     private String permissionCode;

@@ -1,5 +1,7 @@
 package life.hzzh.acs.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +21,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserTenants extends Model<UserTenants> {
+    @TableId(type = IdType.AUTO)
+    private Long id;
     //租户 ID
     private Long tenantId;
     //用户 ID

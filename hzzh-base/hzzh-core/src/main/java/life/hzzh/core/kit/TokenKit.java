@@ -4,11 +4,13 @@ import cn.hutool.core.date.DateUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.NonNull;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -27,11 +29,11 @@ public class TokenKit {
      * @param userId 用户 ID
      * @return token
      */
-    public static String generateToken(@NonNull Object userId) {
+    public static String generateToken(@NonNull Long userId) {
         Algorithm algorithm = Algorithm.HMAC256(KEY_SECRET);
         return JWT.create()
                 .withSubject(SUBJECT)
-                .withPayload(String.valueOf(userId))
+                .withClaim("userId", userId)
                 .sign(algorithm);
 
     }
@@ -58,16 +60,17 @@ public class TokenKit {
      * 解析 token
      *
      * @param token token
-     * @return
+     * @return userId
      */
     public static Object parseToken(@NonNull String token) {
         DecodedJWT jwt = JWT.decode(token);
         String subject = jwt.getSubject();
         String header = jwt.getHeader();
         String payload = jwt.getPayload();
+        Map<String, Claim> claims = jwt.getClaims();
         String signature = jwt.getSignature();
-        if (StringUtils.hasText(payload) && Objects.equals(SUBJECT, subject)) {
-            return payload;
+        if (!CollectionUtils.isEmpty(claims) && Objects.equals(SUBJECT, subject)) {
+            return claims.get("userId");
         }
         return null;
     }

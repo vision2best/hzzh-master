@@ -2,6 +2,8 @@ package life.hzzh.acs.entity;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +24,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Tenants extends Model<Tenants> {
     //租户 ID
+    @TableId(type = IdType.INPUT)
     private Long tenantId;
     //租户名
     private String tenantName;
