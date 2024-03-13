@@ -15,7 +15,8 @@
  */
 package com.baidu.fsg.uid.utils;
 
-import org.apache.commons.lang.time.DateFormatUtils;
+
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -26,7 +27,7 @@ import java.util.Date;
  *
  * @author yutianbao
  */
-public abstract class DateUtils extends org.apache.commons.lang.time.DateUtils {
+public abstract class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     /**
      * Patterns
      */
@@ -86,8 +87,6 @@ public abstract class DateUtils extends org.apache.commons.lang.time.DateUtils {
     /**
      * Format date by 'yyyy-MM-dd' pattern
      *
-     * @param date
-     * @return
      */
     public static String formatByDayPattern(Date date) {
         if (date != null) {
@@ -100,8 +99,6 @@ public abstract class DateUtils extends org.apache.commons.lang.time.DateUtils {
     /**
      * Format date by 'yyyy-MM-dd HH:mm:ss' pattern
      *
-     * @param date
-     * @return
      */
     public static String formatByDateTimePattern(Date date) {
         return DateFormatUtils.format(date, DATETIME_PATTERN);
@@ -110,7 +107,6 @@ public abstract class DateUtils extends org.apache.commons.lang.time.DateUtils {
     /**
      * Get current day using format date by 'yyyy-MM-dd HH:mm:ss' pattern
      *
-     * @return
      * @author yebo
      */
     public static String getCurrentDayByDayPattern() {

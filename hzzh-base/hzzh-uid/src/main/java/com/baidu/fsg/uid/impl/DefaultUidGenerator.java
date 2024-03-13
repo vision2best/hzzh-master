@@ -20,7 +20,8 @@ import com.baidu.fsg.uid.UidGenerator;
 import com.baidu.fsg.uid.exception.UidGenerateException;
 import com.baidu.fsg.uid.utils.DateUtils;
 import com.baidu.fsg.uid.worker.WorkerIdAssigner;
-import org.apache.commons.lang.StringUtils;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -77,7 +78,11 @@ public class DefaultUidGenerator implements UidGenerator, InitializingBean {
     protected long sequence = 0L;
     protected long lastSecond = -1L;
 
-    /** Spring property */
+    /** Spring property
+     * -- SETTER --
+     *  Setters for spring property
+     */
+    @Setter
     protected WorkerIdAssigner workerIdAssigner;
 
     @Override
@@ -181,13 +186,6 @@ public class DefaultUidGenerator implements UidGenerator, InitializingBean {
         }
 
         return currentSecond;
-    }
-
-    /**
-     * Setters for spring property
-     */
-    public void setWorkerIdAssigner(WorkerIdAssigner workerIdAssigner) {
-        this.workerIdAssigner = workerIdAssigner;
     }
 
     public void setTimeBits(int timeBits) {

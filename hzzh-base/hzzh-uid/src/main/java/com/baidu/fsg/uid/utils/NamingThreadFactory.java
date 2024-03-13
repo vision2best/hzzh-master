@@ -15,8 +15,10 @@
  */
 package com.baidu.fsg.uid.utils;
 
-import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.lang.StringUtils;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +30,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Named thread in ThreadFactory. If there is no specified name for thread, it
  * will auto detect using the invoker classname instead.
- * 
+ *
  * @author yutianbao
  */
 public class NamingThreadFactory implements ThreadFactory {
@@ -36,15 +38,24 @@ public class NamingThreadFactory implements ThreadFactory {
 
     /**
      * Thread name pre
+     * -- GETTER --
+     *  Getters & Setters
+
      */
+    @Setter
+    @Getter
     private String name;
     /**
      * Is daemon thread
      */
+    @Setter
+    @Getter
     private boolean daemon;
     /**
      * UncaughtExceptionHandler
      */
+    @Setter
+    @Getter
     private UncaughtExceptionHandler uncaughtExceptionHandler;
     /**
      * Sequences for multi thread name prefix
@@ -90,11 +101,7 @@ public class NamingThreadFactory implements ThreadFactory {
         if (this.uncaughtExceptionHandler != null) {
             thread.setUncaughtExceptionHandler(this.uncaughtExceptionHandler);
         } else {
-            thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-                public void uncaughtException(Thread t, Throwable e) {
-                    LOGGER.error("unhandled exception in thread: " + t.getId() + ":" + t.getName(), e);
-                }
-            });
+            thread.setUncaughtExceptionHandler((t, e) -> LOGGER.error("unhandled exception in thread: " + t.getId() + ":" + t.getName(), e));
         }
 
         return thread;
@@ -102,7 +109,7 @@ public class NamingThreadFactory implements ThreadFactory {
 
     /**
      * Get the method invoker's class name
-     * 
+     *
      * @param depth
      * @return
      */
@@ -117,7 +124,7 @@ public class NamingThreadFactory implements ThreadFactory {
 
     /**
      * Get sequence for different naming prefix
-     * 
+     *
      * @param invoker
      * @return
      */
@@ -132,33 +139,6 @@ public class NamingThreadFactory implements ThreadFactory {
         }
 
         return r.incrementAndGet();
-    }
-
-    /**
-     * Getters & Setters
-     */
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isDaemon() {
-        return daemon;
-    }
-
-    public void setDaemon(boolean daemon) {
-        this.daemon = daemon;
-    }
-
-    public UncaughtExceptionHandler getUncaughtExceptionHandler() {
-        return uncaughtExceptionHandler;
-    }
-
-    public void setUncaughtExceptionHandler(UncaughtExceptionHandler handler) {
-        this.uncaughtExceptionHandler = handler;
     }
 
 }
