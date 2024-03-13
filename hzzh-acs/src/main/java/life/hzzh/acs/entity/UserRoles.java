@@ -5,6 +5,7 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import life.hzzh.mybatisplus.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,26 +23,14 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRoles extends Model<UserRoles> {
+public class UserRoles extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     //用户 ID
     private Long userId;
     //角色 ID
     private Long roleId;
-    //创建人
-    private Long createBy;
-    //修改人
-    private Long modifyBy;
-    //创建时间
-    private Date createAt;
-    //修改时间
-    private Date modifyAt;
     //是否删除
     private Boolean isDeleted;
-    @Override
-    public Serializable pkVal() {
-        return id;
-    }
 }
 

@@ -1,16 +1,13 @@
 package life.hzzh.acs.entity;
 
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import life.hzzh.mybatisplus.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * 租户(Tenants)表实体类
@@ -22,25 +19,14 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Tenants extends Model<Tenants> {
+public class Tenants extends BaseEntity {
     //租户 ID
     @TableId(type = IdType.INPUT)
     private Long tenantId;
     //租户名
     private String tenantName;
-    //创建人
-    private Long createBy;
-    //修改人
-    private Long modifyBy;
-    //创建时间
-    private Date createAt;
-    //修改时间
-    private Date modifyAt;
     //是否删除
     private Boolean isDeleted;
-    @Override
-    public Serializable pkVal() {
-        return tenantId;
-    }
+
 }
 

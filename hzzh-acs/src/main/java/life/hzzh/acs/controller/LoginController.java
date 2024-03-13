@@ -4,17 +4,18 @@ import cn.hutool.core.bean.BeanUtil;
 import jakarta.annotation.Resource;
 import life.hzzh.acs.constant.CacheKey;
 import life.hzzh.acs.entity.Users;
+import life.hzzh.acs.kit.SecurityKit;
 import life.hzzh.acs.model.UserSignIn;
 import life.hzzh.acs.model.UserSignUp;
 import life.hzzh.acs.security.entity.LoginUser;
 import life.hzzh.acs.service.UsersService;
 import life.hzzh.cache.RedisKit;
 import life.hzzh.core.kit.TokenKit;
+import life.hzzh.uid.kit.UidKit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,9 +49,7 @@ public class LoginController {
     @PostMapping("/sign_up")
     public ResponseEntity<Boolean> signUp(@RequestBody UserSignUp userSignUp) {
         Users user = new Users();
-        user.setUserId(1000L);
-        user.setCreateBy(1000L);
-        user.setModifyBy(1000L);
+        user.setUserId(UidKit.cachedUid());
         BeanUtil.copyProperties(userSignUp, user);
         user.setPassword(passwordEncoder.encode(userSignUp.getPassword()));
         boolean save = usersService.save(user);
@@ -87,9 +86,7 @@ public class LoginController {
      */
     @PostMapping("/sign_out")
     public ResponseEntity<Boolean> signOut() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        Long userId = loginUser.getUser().getUserId();
+        Object userId = SecurityKit.getUserId();
         boolean b = RedisKit.deleteObject(String.format(CacheKey.LOGIN_USER_CACHE_KEY, userId));
         return ResponseEntity.ok(b);
     }
