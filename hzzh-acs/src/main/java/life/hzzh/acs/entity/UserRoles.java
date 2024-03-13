@@ -39,6 +39,9 @@ public class UserRoles extends Model<UserRoles> {
     private Date modifyAt;
     //是否删除
     private Boolean isDeleted;
-
+    @Override
+    public Serializable pkVal() {
+        return id;
+    }
 }
 

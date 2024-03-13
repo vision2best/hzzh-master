@@ -41,6 +41,9 @@ public class Roles extends Model<Roles> {
     //是否删除
     private Boolean isDeleted;
 
-
+    @Override
+    public Serializable pkVal() {
+        return roleId;
+    }
 }
 

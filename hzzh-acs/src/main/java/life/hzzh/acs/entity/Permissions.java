@@ -39,5 +39,10 @@ public class Permissions extends Model<Permissions> {
     private Date modifyAt;
     //是否删除
     private Boolean isDeleted;
+
+    @Override
+    public Serializable pkVal() {
+        return permissionId;
+    }
 }
 

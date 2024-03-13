@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -38,5 +39,9 @@ public class UserTenants extends Model<UserTenants> {
     //是否删除
     private Boolean isDeleted;
 
+    @Override
+    public Serializable pkVal() {
+        return id;
+    }
 }
 

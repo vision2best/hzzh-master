@@ -38,6 +38,9 @@ public class Tenants extends Model<Tenants> {
     private Date modifyAt;
     //是否删除
     private Boolean isDeleted;
-
+    @Override
+    public Serializable pkVal() {
+        return tenantId;
+    }
 }
 
