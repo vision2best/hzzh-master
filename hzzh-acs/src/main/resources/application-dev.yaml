@@ -3,4 +3,4 @@ spring:
     import: classpath:application-redis.yaml,classpath:application-dal.yaml
 logging:
   level:
-    root: debug
+    root: Debug

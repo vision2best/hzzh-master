@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>hzzh-bom</module>
+        <module>hzzh-base/hzzh-uid</module>
     </modules>
 
     <properties>
