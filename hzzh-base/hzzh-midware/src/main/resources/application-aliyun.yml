@@ -1,0 +1,9 @@
+aliyun:
+  oss:
+    buckets:
+      hzzh-dev:
+        region: cn-hangzhou
+        endpoint: https://oss-cn-hangzhou.aliyuncs.com
+        accessKeyId: LTAI5tHjetHkKVUYbFQoJYSM
+        accessKeySecret: W1BuO2137OJ7uTOQpZCJWJU0PneDgP
+
