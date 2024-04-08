@@ -46,7 +46,7 @@ public class LoginController {
      * @param userSignUp 注册信息
      * @return userId
      */
-    @PostMapping("/sign_up")
+    @PostMapping("/sign-up")
     public ResponseEntity<Boolean> signUp(@RequestBody UserSignUp userSignUp) {
         Users user = new Users();
         user.setUserId(UidKit.cachedUid());
@@ -62,7 +62,7 @@ public class LoginController {
      * @param userSignIn 登录信息
      * @return token
      */
-    @PostMapping("/sign_in")
+    @PostMapping("/sign-in")
     public ResponseEntity<String> signIn(@RequestBody UserSignIn userSignIn) {
         var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userSignIn.getMobile(), userSignIn.getPassword());
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -84,7 +84,7 @@ public class LoginController {
      *
      * @return boolean
      */
-    @PostMapping("/sign_out")
+    @PostMapping("/sign-out")
     public ResponseEntity<Boolean> signOut() {
         Object userId = SecurityKit.getUserId();
         boolean b = RedisKit.deleteObject(String.format(CacheKey.LOGIN_USER_CACHE_KEY, userId));

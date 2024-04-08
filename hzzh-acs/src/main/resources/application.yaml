@@ -1,6 +1,9 @@
 spring:
   application:
-    name: HZZH_ACS
+    name: hzzh-acs
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
   main:
     log-startup-info: false
     lazy-initialization: false

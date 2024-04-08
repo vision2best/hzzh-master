@@ -11,6 +11,7 @@
     <modules>
         <module>hzzh-bom</module>
         <module>hzzh-base/hzzh-uid</module>
+        <module>hzzh-gateway</module>
     </modules>
 
     <properties>

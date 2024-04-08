@@ -1,0 +1,25 @@
+server:
+  port: 18085
+spring:
+  application:
+    name: hzzh-api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      username: nacos
+      password: nacos
+    gateway:
+      routes:
+        - id: acs-route
+#          uri: http://127.0.0.1:8080
+          uri: lb://hzzh-acs
+          predicates:
+            - Path=/acs/**
+          filters:
+            - StripPrefix=1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
