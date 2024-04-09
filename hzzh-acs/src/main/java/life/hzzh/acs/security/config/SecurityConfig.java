@@ -26,12 +26,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers("health","sign_in", "sign_up","cache-uid","default-uid").permitAll())
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers("health", "sign-in", "sign-up", "cache-uid", "default-uid").permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(new AuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new TenantFilter(), AuthorizationFilter.class)
-        ;
+                .addFilterBefore(new TenantFilter(), AuthorizationFilter.class);
         return http.build();
     }
 

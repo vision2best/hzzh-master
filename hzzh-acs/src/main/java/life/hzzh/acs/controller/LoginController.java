@@ -1,17 +1,19 @@
 package life.hzzh.acs.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
-import life.hzzh.acs.constant.CacheKey;
+import life.hzzh.acs.dto.UserSignIn;
+import life.hzzh.acs.dto.UserSignUp;
 import life.hzzh.acs.entity.Users;
 import life.hzzh.acs.kit.SecurityKit;
-import life.hzzh.acs.model.UserSignIn;
-import life.hzzh.acs.model.UserSignUp;
 import life.hzzh.acs.security.entity.LoginUser;
 import life.hzzh.acs.service.UsersService;
 import life.hzzh.cache.RedisKit;
+import life.hzzh.core.constant.CacheKey;
 import life.hzzh.core.kit.TokenKit;
 import life.hzzh.uid.kit.UidKit;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,6 +34,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping
+@Slf4j
 public class LoginController {
     @Resource
     private UsersService usersService;
@@ -48,11 +51,25 @@ public class LoginController {
      */
     @PostMapping("/sign-up")
     public ResponseEntity<Boolean> signUp(@RequestBody UserSignUp userSignUp) {
-        Users user = new Users();
-        user.setUserId(UidKit.cachedUid());
-        BeanUtil.copyProperties(userSignUp, user);
-        user.setPassword(passwordEncoder.encode(userSignUp.getPassword()));
-        boolean save = usersService.save(user);
+        //防止用户重复
+        String password = passwordEncoder.encode(userSignUp.getPassword());
+        var usersLambdaQueryWrapper = Wrappers.lambdaQuery(Users.class);
+        usersLambdaQueryWrapper.eq(Users::getMobile, userSignUp.getMobile())
+                .eq(Users::getPassword, password)
+                .eq(Users::getIsDeleted, false);
+        Users user = usersService.getOne(usersLambdaQueryWrapper);
+        boolean save = !Objects.isNull(user);
+        //不存在则新建
+        if (!save) {
+            log.info("user is not exist, create user, mobile:{}", userSignUp.getMobile());
+            user = new Users();
+            user.setUserId(UidKit.cachedUid());
+            BeanUtil.copyProperties(userSignUp, user);
+            user.setPassword(password);
+            save = usersService.save(user);
+        } else {
+            log.warn("user is exist: mobile:{}", userSignUp.getMobile());
+        }
         return ResponseEntity.ok(save);
     }
 

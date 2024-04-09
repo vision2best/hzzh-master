@@ -1,4 +1,4 @@
-package life.hzzh.acs.model;
+package life.hzzh.acs.dto;
 
 import lombok.Data;
 

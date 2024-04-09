@@ -3,6 +3,13 @@ server:
 spring:
   application:
     name: hzzh-api-gateway
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  main:
+    log-startup-info: false
+    lazy-initialization: false
+    banner-mode: log
   cloud:
     nacos:
       discovery:
@@ -12,12 +19,27 @@ spring:
     gateway:
       routes:
         - id: acs-route
-#          uri: http://127.0.0.1:8080
+          #          uri: http://127.0.0.1:8080
           uri: lb://hzzh-acs
           predicates:
             - Path=/acs/**
           filters:
             - StripPrefix=1
+  config:
+    import: classpath:application-redis.yaml
+
+logging:
+  include-application-name: true
+  file:
+    name: my.log
+  register-shutdown-hook: false
+  level:
+    root: INFO
+
+debug: false
+
+trace: false
+
 management:
   endpoints:
     web:
