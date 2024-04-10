@@ -2,7 +2,6 @@ package life.hzzh.acs.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import life.hzzh.mybatisplus.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;

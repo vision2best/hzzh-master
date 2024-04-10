@@ -14,19 +14,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UidKit {
+    private static CachedUidGenerator cachedUid;
+    private static DefaultUidGenerator defaultUid;
     @Resource
     private CachedUidGenerator cachedUidGenerator;
     @Resource
     private DefaultUidGenerator defaultUidGenerator;
-
-    private static CachedUidGenerator cachedUid;
-    private static DefaultUidGenerator defaultUid;
-
-    @PostConstruct
-    public void init() {
-        cachedUid = cachedUidGenerator;
-        defaultUid = defaultUidGenerator;
-    }
 
     public static Long cachedUid() {
         return cachedUid.getUID();
@@ -34,5 +27,11 @@ public class UidKit {
 
     public static Long defaultUid() {
         return defaultUid.getUID();
+    }
+
+    @PostConstruct
+    public void init() {
+        cachedUid = cachedUidGenerator;
+        defaultUid = defaultUidGenerator;
     }
 }

@@ -20,11 +20,12 @@ public class OssProperties {
 
     /**
      * get bucket conf
+     *
      * @param bucketName
      * @return
      */
-    public OssBucketConf getOssBucket(String bucketName){
-        if(buckets == null || !buckets.containsKey(bucketName)) {
+    public OssBucketConf getOssBucket(String bucketName) {
+        if (buckets == null || !buckets.containsKey(bucketName)) {
             return null;
         }
         return buckets.get(bucketName);

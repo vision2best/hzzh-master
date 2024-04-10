@@ -7,7 +7,6 @@ import com.aliyun.oss.common.comm.Protocol;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import life.hzzh.midware.alibaba.oss.support.OssBucketConf;
@@ -22,45 +21,10 @@ import java.util.Map;
 @Component
 public class OssClientFactory {
 
-    private static OssProperties ossProperties;
-
     private static final Map<String, OSS> OssClientMap = new HashMap<>();
     private static final Map<String, DefaultAcsClient> AcsClientMap = new HashMap<>();
-
-    @PostConstruct
-    public void init() {
-        for(String bucketName : ossProperties.getBuckets().keySet()) {
-            createClient(bucketName);
-        }
-    }
-
-    private void createClient(String bucketName) {
-        OssBucketConf ossBucketConf = ossProperties.getOssBucket(bucketName);
-        if(ossBucketConf == null) {
-            return;
-        }
-        // oss client
-        if(!OssClientMap.containsKey(bucketName)) {
-            ClientBuilderConfiguration configuration = new ClientBuilderConfiguration();
-            configuration.setProtocol(Protocol.HTTPS);
-            OSS client = new OSSClientBuilder().build(ossBucketConf.getEndpoint(), ossBucketConf.getAccessKeyId(), ossBucketConf.getAccessKeySecret(), configuration);
-            OssClientMap.put(bucketName, client);
-        }
-        // acs client
-        if(!AcsClientMap.containsKey(bucketName)) {
-            String endpoint = ossBucketConf.getStsEndpoint();
-            DefaultProfile.addEndpoint(ossBucketConf.getRegion(), "Sts", endpoint);
-            IClientProfile profile = DefaultProfile.getProfile(ossBucketConf.getRegion(), ossBucketConf.getAccessKeyId(), ossBucketConf.getAccessKeySecret());
-            DefaultAcsClient acsClient = new DefaultAcsClient(profile);
-            AcsClientMap.put(bucketName, acsClient);
-        }
-    }
-
-
-    @Resource
-    public void setOssProperties(OssProperties ossProperties) {
-        OssClientFactory.ossProperties = ossProperties;
-    }
+    private static final String ProtocolStr = Protocol.HTTPS.name().toLowerCase();
+    private static OssProperties ossProperties;
 
     public static OSS ossClient(String bucketName) {
         return OssClientMap.get(bucketName);
@@ -74,14 +38,46 @@ public class OssClientFactory {
         return ossProperties.getOssBucket(bucketName);
     }
 
-    private static final String ProtocolStr = Protocol.HTTPS.name().toLowerCase();
-
     public static String getEndpoint(String bucketName) {
         return ProtocolStr + "://" + bucketName + "." + ossProperties(bucketName).getEndpoint();
     }
 
     public static String getCdnUrl(String bucketName) {
         return ProtocolStr + "://" + ossProperties(bucketName).getCdn();
+    }
+
+    @PostConstruct
+    public void init() {
+        for (String bucketName : ossProperties.getBuckets().keySet()) {
+            createClient(bucketName);
+        }
+    }
+
+    private void createClient(String bucketName) {
+        OssBucketConf ossBucketConf = ossProperties.getOssBucket(bucketName);
+        if (ossBucketConf == null) {
+            return;
+        }
+        // oss client
+        if (!OssClientMap.containsKey(bucketName)) {
+            ClientBuilderConfiguration configuration = new ClientBuilderConfiguration();
+            configuration.setProtocol(Protocol.HTTPS);
+            OSS client = new OSSClientBuilder().build(ossBucketConf.getEndpoint(), ossBucketConf.getAccessKeyId(), ossBucketConf.getAccessKeySecret(), configuration);
+            OssClientMap.put(bucketName, client);
+        }
+        // acs client
+        if (!AcsClientMap.containsKey(bucketName)) {
+            String endpoint = ossBucketConf.getStsEndpoint();
+            DefaultProfile.addEndpoint(ossBucketConf.getRegion(), "Sts", endpoint);
+            IClientProfile profile = DefaultProfile.getProfile(ossBucketConf.getRegion(), ossBucketConf.getAccessKeyId(), ossBucketConf.getAccessKeySecret());
+            DefaultAcsClient acsClient = new DefaultAcsClient(profile);
+            AcsClientMap.put(bucketName, acsClient);
+        }
+    }
+
+    @Resource
+    public void setOssProperties(OssProperties ossProperties) {
+        OssClientFactory.ossProperties = ossProperties;
     }
 }
 

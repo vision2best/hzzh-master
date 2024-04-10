@@ -70,7 +70,7 @@ public class SecurityConfig {
     /**
      * AuthenticationManager：负责认证的
      * DaoAuthenticationProvider：负责将 sysUserDetailsService、passwordEncoder融合起来送到AuthenticationManager中
-
+     *
      * @return
      */
     @Bean

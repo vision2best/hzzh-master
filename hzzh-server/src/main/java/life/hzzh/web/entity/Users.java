@@ -1,12 +1,10 @@
 package life.hzzh.web.entity;
 
-import java.util.Date;
-
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 用户(Users)表实体类

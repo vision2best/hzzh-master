@@ -27,24 +27,25 @@ import java.util.*;
 @Slf4j
 public class GatewayAuthFilter implements GlobalFilter, Ordered {
 
+    private final static String WHITELIST_URL = "/security-whitelist.properties";
 
     //白名单
-    private static List<String> whitelist = new ArrayList<>();
+    private static List<String> WHITELIST = new ArrayList<>();
 
     static {
         //加载白名单
         try (
-                InputStream resourceAsStream = GatewayAuthFilter.class.getResourceAsStream("/security-whitelist.properties");
+                InputStream resourceAsStream = GatewayAuthFilter.class.getResourceAsStream(WHITELIST_URL);
         ) {
             if (resourceAsStream != null) {
                 Properties properties = new Properties();
                 properties.load(resourceAsStream);
                 Set<String> strings = properties.stringPropertyNames();
-                whitelist = new ArrayList<>(strings);
+                WHITELIST = new ArrayList<>(strings);
             }
 
         } catch (Exception e) {
-            whitelist = new ArrayList<>();
+            WHITELIST = new ArrayList<>();
             log.error("加载/security-whitelist.properties出错:{}", e.getMessage());
             e.printStackTrace();
         }
@@ -59,7 +60,7 @@ public class GatewayAuthFilter implements GlobalFilter, Ordered {
         String requestUrl = exchange.getRequest().getPath().value();
         AntPathMatcher pathMatcher = new AntPathMatcher();
         //白名单放行
-        for (String url : whitelist) {
+        for (String url : WHITELIST) {
             if (pathMatcher.match(url, requestUrl)) {
                 return chain.filter(exchange);
             }

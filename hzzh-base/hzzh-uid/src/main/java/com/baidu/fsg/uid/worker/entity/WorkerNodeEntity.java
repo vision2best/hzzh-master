@@ -19,7 +19,6 @@ import com.baidu.fsg.uid.worker.WorkerNodeType;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-
 import java.util.Date;
 
 /**

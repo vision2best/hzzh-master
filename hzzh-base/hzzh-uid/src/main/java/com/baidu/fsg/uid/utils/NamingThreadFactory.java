@@ -35,12 +35,14 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class NamingThreadFactory implements ThreadFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(NamingThreadFactory.class);
-
+    /**
+     * Sequences for multi thread name prefix
+     */
+    private final ConcurrentHashMap<String, AtomicLong> sequences;
     /**
      * Thread name pre
      * -- GETTER --
-     *  Getters & Setters
-
+     * Getters & Setters
      */
     @Setter
     @Getter
@@ -57,10 +59,6 @@ public class NamingThreadFactory implements ThreadFactory {
     @Setter
     @Getter
     private UncaughtExceptionHandler uncaughtExceptionHandler;
-    /**
-     * Sequences for multi thread name prefix
-     */
-    private final ConcurrentHashMap<String, AtomicLong> sequences;
 
     /**
      * Constructors
