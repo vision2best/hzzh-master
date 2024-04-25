@@ -26,6 +26,8 @@ import static life.hzzh.midware.alibaba.oss.support.OssConstants.SignatureDurati
 @Component
 public class OssHelper {
 
+    private static final String FileSeparator = "/";
+
     /**
      * 使用STS临时访问凭证访问OSS
      * {@link(url = "<a href="https://help.aliyun.com/document_detail/100624.html">...</a>")}
@@ -49,7 +51,6 @@ public class OssHelper {
                 .setObjectDir(objectDir);
     }
 
-
     /**
      * 上传文件
      *
@@ -67,9 +68,6 @@ public class OssHelper {
         String ossEndPoint = ossProperties(bucketName).getEndpoint();
         return "https://" + bucketName + "." + ossEndPoint + "/" + objectName;
     }
-
-
-    private static final String FileSeparator = "/";
 
     /**
      * 生成post签名

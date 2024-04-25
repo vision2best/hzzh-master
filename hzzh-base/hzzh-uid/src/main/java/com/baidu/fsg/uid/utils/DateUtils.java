@@ -86,7 +86,6 @@ public abstract class DateUtils extends org.apache.commons.lang3.time.DateUtils 
 
     /**
      * Format date by 'yyyy-MM-dd' pattern
-     *
      */
     public static String formatByDayPattern(Date date) {
         if (date != null) {
@@ -98,7 +97,6 @@ public abstract class DateUtils extends org.apache.commons.lang3.time.DateUtils 
 
     /**
      * Format date by 'yyyy-MM-dd HH:mm:ss' pattern
-     *
      */
     public static String formatByDateTimePattern(Date date) {
         return DateFormatUtils.format(date, DATETIME_PATTERN);

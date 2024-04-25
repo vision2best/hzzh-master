@@ -20,7 +20,7 @@ import com.baidu.fsg.uid.utils.NetUtils;
 import com.baidu.fsg.uid.worker.dao.WorkerNodeDAO;
 import com.baidu.fsg.uid.worker.entity.WorkerNodeEntity;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +71,7 @@ public class DisposableWorkerIdAssigner implements WorkerIdAssigner {
         } else {
             workerNodeEntity.setType(WorkerNodeType.ACTUAL.value());
             workerNodeEntity.setHostName(NetUtils.getLocalAddress());
-            workerNodeEntity.setPort(System.currentTimeMillis() + "-" + RandomUtils.nextInt());
+            workerNodeEntity.setPort(System.currentTimeMillis() + "-" + RandomStringUtils.random(6));
         }
 
         return workerNodeEntity;

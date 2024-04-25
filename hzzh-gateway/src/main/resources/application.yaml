@@ -12,7 +12,7 @@ spring:
     gateway:
       routes:
         - id: acs-route
-#          uri: http://127.0.0.1:8080
+          #          uri: http://127.0.0.1:8080
           uri: lb://hzzh-acs
           predicates:
             - Path=/acs/**

@@ -6,14 +6,14 @@
 </head>
 <body>
 
-<form th:action="@{/login}" method="post">
+<form method="post" th:action="@{/login}">
     <div>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username"/>
+        <input id="username" name="username" type="text"/>
     </div>
     <div>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password"/>
+        <input id="password" name="password" type="password"/>
     </div>
     <button type="submit">Login</button>
 </form>

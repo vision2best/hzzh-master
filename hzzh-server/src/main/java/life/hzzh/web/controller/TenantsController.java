@@ -39,7 +39,7 @@ public class TenantsController {
     public ResponseEntity<List<Tenants>> queryByPage(@RequestParam(name = "pageNum", required = false, defaultValue = "1") Integer pageNum,
                                                      @RequestParam(name = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
         LambdaQueryWrapper<Tenants> tenantsLambdaQueryWrapper = Wrappers.lambdaQuery(Tenants.class);
-        Page<Tenants> page = new Page<>(pageNum,pageSize);
+        Page<Tenants> page = new Page<>(pageNum, pageSize);
         return ResponseEntity.ok(this.tenantsService.page(page, tenantsLambdaQueryWrapper).getRecords());
     }
 }
