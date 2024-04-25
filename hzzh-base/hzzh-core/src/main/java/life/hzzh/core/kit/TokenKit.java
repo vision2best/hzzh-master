@@ -23,6 +23,8 @@ public class TokenKit {
 
     private static final String SUBJECT = "hzzh";
 
+    private static final String CLAIM_KEY_USERID = "userId";
+
     /**
      * 生成 token 长期有效
      *
@@ -33,7 +35,7 @@ public class TokenKit {
         Algorithm algorithm = Algorithm.HMAC256(KEY_SECRET);
         return JWT.create()
                 .withSubject(SUBJECT)
-                .withClaim("userId", userId)
+                .withClaim(CLAIM_KEY_USERID, userId)
                 .sign(algorithm);
 
     }
@@ -70,7 +72,7 @@ public class TokenKit {
         Map<String, Claim> claims = jwt.getClaims();
         String signature = jwt.getSignature();
         if (!CollectionUtils.isEmpty(claims) && Objects.equals(SUBJECT, subject)) {
-            return claims.get("userId");
+            return claims.get(CLAIM_KEY_USERID);
         }
         return null;
     }

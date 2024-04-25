@@ -1,4 +1,4 @@
-package life.hzzh.acs.constant;
+package life.hzzh.core.constant;
 
 /**
  * @author ZHANG HUANG
