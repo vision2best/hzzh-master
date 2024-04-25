@@ -1,6 +1,0 @@
-spring:
-  config:
-    import: classpath:application-redis.yaml,classpath:application-dal.yaml
-logging:
-  level:
-    root: info
