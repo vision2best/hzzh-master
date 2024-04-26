@@ -1,5 +1,6 @@
 package life.hzzh.core.kit;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -7,7 +8,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.NonNull;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.Map;
@@ -67,11 +67,8 @@ public class TokenKit {
     public static Object parseToken(@NonNull String token) {
         DecodedJWT jwt = JWT.decode(token);
         String subject = jwt.getSubject();
-        String header = jwt.getHeader();
-        String payload = jwt.getPayload();
         Map<String, Claim> claims = jwt.getClaims();
-        String signature = jwt.getSignature();
-        if (!CollectionUtils.isEmpty(claims) && Objects.equals(SUBJECT, subject)) {
+        if (CollectionUtil.isNotEmpty(claims) && Objects.equals(SUBJECT, subject)) {
             return claims.get(CLAIM_KEY_USERID);
         }
         return null;
@@ -80,7 +77,7 @@ public class TokenKit {
 
     public static Boolean validateToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(KEY_SECRET);
-        JWTVerifier verifier = JWT.require(algorithm).build(); //Reusable verifier instance
+        JWTVerifier verifier = JWT.require(algorithm).build();
         try {
             verifier.verify(token);
             return true;

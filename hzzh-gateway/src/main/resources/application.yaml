@@ -12,6 +12,8 @@ spring:
     banner-mode: log
   cloud:
     nacos:
+      config:
+        server-addr: 127.0.0.1:8848
       discovery:
         server-addr: 127.0.0.1:8848
       username: nacos
@@ -26,7 +28,9 @@ spring:
           filters:
             - StripPrefix=1
   config:
-    import: classpath:application-redis.yaml
+    import:
+      - classpath:application-redis.yaml
+      - nacos:hzzh-api-gateway.properties
 
 logging:
   include-application-name: true
