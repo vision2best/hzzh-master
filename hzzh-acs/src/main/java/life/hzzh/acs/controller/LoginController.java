@@ -3,8 +3,8 @@ package life.hzzh.acs.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
-import life.hzzh.acs.dto.UserSignIn;
-import life.hzzh.acs.dto.UserSignUp;
+import life.hzzh.acs.dto.request.SignInRequest;
+import life.hzzh.acs.dto.request.SignUpRequest;
 import life.hzzh.acs.entity.Users;
 import life.hzzh.acs.kit.SecurityKit;
 import life.hzzh.acs.security.entity.LoginUser;
@@ -46,29 +46,29 @@ public class LoginController {
     /**
      * 注册
      *
-     * @param userSignUp 注册信息
+     * @param signUpRequest 注册信息
      * @return userId
      */
     @PostMapping("/sign-up")
-    public ResponseEntity<Boolean> signUp(@RequestBody UserSignUp userSignUp) {
+    public ResponseEntity<Boolean> signUp(@RequestBody SignUpRequest signUpRequest) {
         //防止用户重复
-        String password = passwordEncoder.encode(userSignUp.getPassword());
+        String password = passwordEncoder.encode(signUpRequest.getPassword());
         var usersLambdaQueryWrapper = Wrappers.lambdaQuery(Users.class);
-        usersLambdaQueryWrapper.eq(Users::getMobile, userSignUp.getMobile())
+        usersLambdaQueryWrapper.eq(Users::getMobile, signUpRequest.getMobile())
                 .eq(Users::getPassword, password)
                 .eq(Users::getIsDeleted, false);
         Users user = usersService.getOne(usersLambdaQueryWrapper);
         boolean save = !Objects.isNull(user);
         //不存在则新建
         if (!save) {
-            log.info("user is not exist, create user, mobile:{}", userSignUp.getMobile());
+            log.info("user is not exist, create user, mobile:{}", signUpRequest.getMobile());
             user = new Users();
             user.setUserId(UidKit.cachedUid());
-            BeanUtil.copyProperties(userSignUp, user);
+            BeanUtil.copyProperties(signUpRequest, user);
             user.setPassword(password);
             save = usersService.save(user);
         } else {
-            log.warn("user is exist: mobile:{}", userSignUp.getMobile());
+            log.warn("user is exist: mobile:{}", signUpRequest.getMobile());
         }
         return ResponseEntity.ok(save);
     }
@@ -76,12 +76,12 @@ public class LoginController {
     /**
      * 登录
      *
-     * @param userSignIn 登录信息
+     * @param signInRequest 登录信息
      * @return token
      */
     @PostMapping("/sign-in")
-    public ResponseEntity<String> signIn(@RequestBody UserSignIn userSignIn) {
-        var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userSignIn.getMobile(), userSignIn.getPassword());
+    public ResponseEntity<String> signIn(@RequestBody SignInRequest signInRequest) {
+        var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(signInRequest.getMobile(), signInRequest.getPassword());
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         if (Objects.isNull(authenticate)) {
             throw new RuntimeException("用户名或密码错误");

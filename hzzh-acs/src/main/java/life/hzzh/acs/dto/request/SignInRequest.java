@@ -1,13 +1,16 @@
-package life.hzzh.acs.dto;
+package life.hzzh.acs.dto.request;
 
+import life.hzzh.acs.dto.BaseModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author ZHANG HUANG
  * 2024/3/11 15:22
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class UserSignIn extends BaseModel {
+public class SignInRequest extends BaseModel {
     /**
      * 账号(手机号)
      */

@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * @author ZHANG HUANG
@@ -26,7 +29,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers("health", "sign_in", "sign_up", "cache-uid", "default-uid").permitAll())
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers("health", "sign_in", "sign_up", "cache-uid", "default-uid","oauth/token").permitAll())
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(new AuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -50,5 +53,16 @@ public class SecurityConfig {
         return new ProviderManager(authenticationProvider);
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*"); // 允许所有域访问
+        configuration.addAllowedHeader("*"); // 允许所有请求头
+        configuration.addAllowedMethod("*"); // 允许所有方法（GET, POST, PUT, DELETE, etc）
+        configuration.setAllowCredentials(true); // 允许携带凭证
 
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // 对所有路径生效
+        return source;
+    }
 }
